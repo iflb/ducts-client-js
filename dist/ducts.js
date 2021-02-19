@@ -32,6 +32,7 @@ const MessagePack = __webpack_require__(/*! what-the-pack */ "./node_modules/wha
 const { encode, decode } = MessagePack.initialize(2**22);
 const WebSocket = __webpack_require__(/*! websocket */ "./node_modules/websocket/lib/browser.js").w3cwebsocket;
 const fetch = __webpack_require__(/*! node-fetch */ "./node_modules/node-fetch/browser.js");
+const crypto = __webpack_require__(/*! crypto */ "?8465").webcrypto;
 
 //https://github.com/necojackarc/extensible-custom-error/blob/master/src/index.js
 class DuctError extends Error {
@@ -206,7 +207,7 @@ class Duct {
 		resolve(self);
 		return;
 	    }
-	    let query = uuid != null ? uuid : '?uuid='+([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.randomFillSync(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
+	    let query = uuid != null ? uuid : '?uuid='+([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
 	    for (let [key, value] of Object.entries(params)) {
 		query += '&'+key+'='+value;
 	    }
@@ -3256,6 +3257,16 @@ const initialize = (tempBufferLength, logFunction) => {
 };
 
 module.exports = { initialize, Buffer };
+
+/***/ }),
+
+/***/ "?8465":
+/*!************************!*\
+  !*** crypto (ignored) ***!
+  \************************/
+/***/ (() => {
+
+/* (ignored) */
 
 /***/ })
 
