@@ -32,7 +32,8 @@ const MessagePack = __webpack_require__(/*! what-the-pack */ "./node_modules/wha
 const { encode, decode } = MessagePack.initialize(2**22);
 const WebSocket = __webpack_require__(/*! websocket */ "./node_modules/websocket/lib/browser.js").w3cwebsocket;
 const fetch = __webpack_require__(/*! node-fetch */ "./node_modules/node-fetch/browser.js");
-const crypto = __webpack_require__(/*! crypto */ "?8465").webcrypto;
+const getRandomValues = __webpack_require__(/*! get-random-values */ "./node_modules/get-random-values/index.js");
+//const crypto = require("crypto").webcrypto;
 
 //https://github.com/necojackarc/extensible-custom-error/blob/master/src/index.js
 class DuctError extends Error {
@@ -207,7 +208,7 @@ class Duct {
 		resolve(self);
 		return;
 	    }
-	    let query = uuid != null ? uuid : '?uuid='+([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
+	    let query = uuid != null ? uuid : '?uuid='+([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
 	    for (let [key, value] of Object.entries(params)) {
 		query += '&'+key+'='+value;
 	    }
@@ -2360,6 +2361,72 @@ module.exports = (function () {
 
 /***/ }),
 
+/***/ "./node_modules/get-random-values/index.js":
+/*!*************************************************!*\
+  !*** ./node_modules/get-random-values/index.js ***!
+  \*************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var window = __webpack_require__(/*! global/window */ "./node_modules/global/window.js");
+var nodeCrypto = __webpack_require__(/*! crypto */ "?8465");
+
+function getRandomValues(buf) {
+  if (window.crypto && window.crypto.getRandomValues) {
+    return window.crypto.getRandomValues(buf);
+  }
+  if (typeof window.msCrypto === 'object' && typeof window.msCrypto.getRandomValues === 'function') {
+    return window.msCrypto.getRandomValues(buf);
+  }
+  if (nodeCrypto.randomBytes) {
+    if (!(buf instanceof Uint8Array)) {
+      throw new TypeError('expected Uint8Array');
+    }
+    if (buf.length > 65536) {
+      var e = new Error();
+      e.code = 22;
+      e.message = 'Failed to execute \'getRandomValues\' on \'Crypto\': The ' +
+        'ArrayBufferView\'s byte length (' + buf.length + ') exceeds the ' +
+        'number of bytes of entropy available via this API (65536).';
+      e.name = 'QuotaExceededError';
+      throw e;
+    }
+    var bytes = nodeCrypto.randomBytes(buf.length);
+    buf.set(bytes);
+    return buf;
+  }
+  else {
+    throw new Error('No secure random number generator available.');
+  }
+}
+
+module.exports = getRandomValues;
+
+
+/***/ }),
+
+/***/ "./node_modules/global/window.js":
+/*!***************************************!*\
+  !*** ./node_modules/global/window.js ***!
+  \***************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var win;
+
+if (typeof window !== "undefined") {
+    win = window;
+} else if (typeof __webpack_require__.g !== "undefined") {
+    win = __webpack_require__.g;
+} else if (typeof self !== "undefined"){
+    win = self;
+} else {
+    win = {};
+}
+
+module.exports = win;
+
+
+/***/ }),
+
 /***/ "./node_modules/ieee754/index.js":
 /*!***************************************!*\
   !*** ./node_modules/ieee754/index.js ***!
@@ -3294,6 +3361,19 @@ module.exports = { initialize, Buffer };
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled

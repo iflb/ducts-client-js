@@ -15,11 +15,11 @@ const generateConfig = (name) => ({
     //},
     devtool: 'source-map',
     mode: name.indexOf('min')>-1 ? 'production' : 'development',
-    resolve: {
-        fallback: {
-            "crypto": false
-        }
-    }
+    //resolve: {
+    //    fallback: {
+    //        "crypto": false
+    //    }
+    //}
 });
 
 ['ducts', 'ducts.min'].forEach((key) => {
