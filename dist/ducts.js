@@ -33,7 +33,6 @@ const { encode, decode } = MessagePack.initialize(2**22);
 const WebSocket = __webpack_require__(/*! websocket */ "./node_modules/websocket/lib/browser.js").w3cwebsocket;
 const fetch = __webpack_require__(/*! node-fetch */ "./node_modules/node-fetch/browser.js");
 const getRandomValues = __webpack_require__(/*! get-random-values */ "./node_modules/get-random-values/index.js");
-//const crypto = require("crypto").webcrypto;
 
 //https://github.com/necojackarc/extensible-custom-error/blob/master/src/index.js
 class DuctError extends Error {
@@ -139,8 +138,15 @@ class Duct {
 	this.encode = null;
 	this.decode = null;
 	
-	this.next_rid =
-	    () => {return ducts._local.next_rid();};
+    this.next_rid = 
+        () => {
+            let next_id = new Date().getTime();
+            if (next_id <= this.last_rid) {
+                next_id = this.last_rid + 1;
+            }
+            this.last_rid = next_id;
+            return next_id;
+        };
 	this.open =
 	    (wsd_url, uuid = null, params = {}) => {return this._open(this, wsd_url, uuid, params);};
 	this.reconnect =
@@ -249,8 +255,8 @@ class Duct {
     }
     
     _onopen(self, event) {
-	self.encode = ducts.msgpack.encode;
-	self.decode = ducts.msgpack.decode;
+	self.encode = encode;
+	self.decode = decode;
 	self._send_timestamp = new Date().getTime() / 1000;
 	self.time_offset = 0;
 	self.time_latency = 0;
