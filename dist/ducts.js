@@ -218,7 +218,7 @@ class Duct {
 	    for (let [key, value] of Object.entries(params)) {
 		query += '&'+key+'='+value;
 	    }
-	    fetch(wsd_url + query)
+	    fetch(wsd_url + query, { headers: { "User-Agent": "" } })
 		.then( response => {
 		    return response.json();
 		}).then( wsd => {
@@ -303,7 +303,7 @@ class Duct {
     _onmessage(self, event) {
 	try {
 	    self._connection_listener.onmessage(event);
-	    const [rid, eid, data] = self.decode(MessagePack.Buffer.from(event.source.data));
+	    const [rid, eid, data] = self.decode(Buffer.from(event.source.data));
 	    try {
 		self.catchall_event_handler(rid, eid, data);
 		let handle = (eid in self._event_handler) ? self._event_handler[eid] : self.uncaught_event_handler;
