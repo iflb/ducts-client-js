@@ -1,11 +1,8 @@
 {
-  "name": "@iflb/ducts",
+  "name": "ducts",
   "version": "1.0.0",
   "description": "Duplex Communication and Transactional Streaming Web Framework",
-  "main": "lib/ducts.js",
-  "directories": {
-    "lib": "lib"
-  },
+  "main": "ducts.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/iflb/ducts-js/issues"
   },
-  "homepage": "https://github.com/iflb/ducts-js#readme",
+  "homepage": "",
   "devDependencies": {
     "terser-webpack-plugin": "^5.1.1",
     "webpack": "^5.23.0",
