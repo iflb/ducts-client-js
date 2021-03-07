@@ -1,6 +1,6 @@
 {
   "name": "@iflb/ducts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Duplex Communication and Transactional Streaming Web Framework",
   "main": "lib/ducts.js",
   "directories": {
