@@ -25,6 +25,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "buffer": "^5.7.1",
     "get-random-values": "^1.2.2",
     "node-fetch": "^2.6.1",
     "websocket": "^1.0.33",

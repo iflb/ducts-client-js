@@ -33,6 +33,7 @@ const { encode, decode } = MessagePack.initialize(2**22);
 const WebSocket = __webpack_require__(/*! websocket */ "./node_modules/websocket/lib/browser.js").w3cwebsocket;
 const fetch = __webpack_require__(/*! node-fetch */ "./node_modules/node-fetch/browser.js");
 const getRandomValues = __webpack_require__(/*! get-random-values */ "./node_modules/get-random-values/index.js");
+const Buffer = __webpack_require__(/*! buffer */ "./node_modules/buffer/index.js").Buffer;
 
 //https://github.com/necojackarc/extensible-custom-error/blob/master/src/index.js
 class DuctError extends Error {
