@@ -1,7 +1,7 @@
 {
-  "name": "@iflb/ducts",
-  "version": "1.0.1",
-  "description": "Duplex Communication and Transactional Streaming Web Framework",
+  "name": "@iflb/ducts-client",
+  "version": "0.1.0",
+  "description": "DUCTS API for JavaScript client.",
   "main": "lib/ducts.js",
   "directories": {
     "lib": "lib"
@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/iflb/ducts-js.git"
   },
-  "author": "Teppei Nakano",
+  "author": "Susumu Saito",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/iflb/ducts-js/issues"
