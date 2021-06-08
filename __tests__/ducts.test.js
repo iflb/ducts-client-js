@@ -6,9 +6,13 @@ function incrementErrorCount() { ++errorCount }
 function assertNoError() { expect(errorCount).toBe(0); }
 function assertHasError() { expect(errorCount).not.toBe(0); }
 function initializeTest() {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         resetErrorCount();
-        resolve();
+        if (errorCount === 0) {
+            resolve();
+        } else {
+            reject();
+        }
     });
 }
 
