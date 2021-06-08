@@ -48,6 +48,6 @@ test(
     () => {
         initializeTest()
             .then(duct.open.bind(null, 'https://invalid_url'))
-            .then(assertHasError);
+            .catch(assertHasError);
     },
 );
