@@ -44,3 +44,21 @@ test(
         assertNoError();
     },
 );
+
+test(
+    'Test Call',
+    async () => {
+        resetErrorCount();
+        await duct.open(wsd_url);
+        let group_name = 'ducts.test.js'
+        if (await duct.call(duct.EVENT['BLOBS_GROUP_EXISTS'], group_name)) {
+            await duct.call(duct.EVENT['BLOBS_GROUP_DELETE'], group_name);
+        }
+        await duct.call(duct.EVENT['BLOBS_GROUP_ADD'], { group_key: group_name });
+        let exists = await duct.call(duct.EVENT['BLOBS_GROUP_EXISTS'], group_name);
+        expect(exists).toBe(true);
+        await duct.call(duct.EVENT['BLOBS_GROUP_DELETE'], group_name);
+        duct.close();
+        assertNoError();
+    },
+);
