@@ -5,16 +5,6 @@ function resetErrorCount() { errorCount = 0; }
 function incrementErrorCount() { ++errorCount }
 function assertNoError() { expect(errorCount).toBe(0); }
 function assertHasError() { expect(errorCount).not.toBe(0); }
-function initializeTest() {
-    return new Promise((resolve, reject) => {
-        resetErrorCount();
-        if (errorCount === 0) {
-            resolve();
-        } else {
-            reject();
-        }
-    });
-}
 
 const duct = new ducts.Duct();
 duct._connection_listener.onopen = (event) => {
@@ -25,7 +15,6 @@ duct._connection_listener.onclose = (event) => {
 };
 duct._connection_listener.onerror = (event) => {
     // console.log('[ERROR]', event);
-    incrementErrorCount();
 };
 duct._connection_listener.onmessage = (event) => {
     // console.log('[MESSAGE]', event);
@@ -39,19 +28,19 @@ const wsd_url = 'https://sdk.ducts.io/ducts/wsd';
 
 test(
     'Test Open And Close',
-    () => {
-        initializeTest()
-            .then(duct.open.bind(null, wsd_url))
-            .then(new Promise(resolve => { duct.close(); resolve(); }))
-            .then(assertNoError);
+    async () => {
+        resetErrorCount();
+        await duct.open(wsd_url);
+        duct.close();
+        assertNoError();
     },
 );
 
 test(
     'Test Open Fails',
-    () => {
-        initializeTest()
-            .then(duct.open.bind(null, 'https://invalid_url'))
-            .catch(assertHasError);
+    async () => {
+        resetErrorCount();
+        expect(duct.open('https://invalid_url')).rejects.toThrow(); 
+        assertNoError();
     },
 );
