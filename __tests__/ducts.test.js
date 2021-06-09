@@ -31,7 +31,8 @@ test(
     async () => {
         resetErrorCount();
         await duct.open(wsd_url);
-        duct.close();
+        let closeEvent = await duct.close();
+        expect(closeEvent.code).toBe(1000);
         assertNoError();
     },
 );
@@ -58,7 +59,7 @@ test(
         let exists = await duct.call(duct.EVENT['BLOBS_GROUP_EXISTS'], group_name);
         expect(exists).toBe(true);
         await duct.call(duct.EVENT['BLOBS_GROUP_DELETE'], group_name);
-        duct.close();
+        await duct.close();
         assertNoError();
     },
 );
