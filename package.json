@@ -26,6 +26,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@iflb/lib": "^0.1.1",
     "buffer": "^5.7.1",
     "get-random-values": "^1.2.2",
     "node-fetch": "^2.6.1",
