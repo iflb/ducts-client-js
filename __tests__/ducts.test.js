@@ -7,19 +7,19 @@ function assertNoError() { expect(errorCount).toBe(0); }
 function assertHasError() { expect(errorCount).not.toBe(0); }
 
 const duct = new ducts.Duct();
-duct._connection_listener.onopen = (event) => {
+duct._connectionListener.onopen = (event) => {
     // console.log('[OPEN]', event);
 };
-duct._connection_listener.onclose = (event) => {
+duct._connectionListener.onclose = (event) => {
     // console.log('[CLOSE]', event);
 };
-duct._connection_listener.onerror = (event) => {
+duct._connectionListener.onerror = (event) => {
     // console.log('[ERROR]', event);
 };
-duct._connection_listener.onmessage = (event) => {
+duct._connectionListener.onmessage = (event) => {
     // console.log('[MESSAGE]', event);
 };
-duct.event_error_handler = (rid, eid, data, error) => {
+duct.eventErrorHandler = (rid, eid, data, error) => {
     // console.log(String(rid) + '-' + String(eid) + '-' + String(data) + ': ' + String(error));
     incrementErrorCount();
 };
@@ -51,14 +51,14 @@ test(
     async () => {
         resetErrorCount();
         await duct.open(wsd_url);
-        let group_name = 'ducts.test.js'
-        if (await duct.call(duct.EVENT['BLOBS_GROUP_EXISTS'], group_name)) {
-            await duct.call(duct.EVENT['BLOBS_GROUP_DELETE'], group_name);
+        let groupName = 'ducts.test.js'
+        if (await duct.call(duct.EVENT['BLOBS_GROUP_EXISTS'], groupName)) {
+            await duct.call(duct.EVENT['BLOBS_GROUP_DELETE'], groupName);
         }
-        await duct.call(duct.EVENT['BLOBS_GROUP_ADD'], { group_key: group_name });
-        let exists = await duct.call(duct.EVENT['BLOBS_GROUP_EXISTS'], group_name);
+        await duct.call(duct.EVENT['BLOBS_GROUP_ADD'], { 'group_key': groupName });
+        let exists = await duct.call(duct.EVENT['BLOBS_GROUP_EXISTS'], groupName);
         expect(exists).toBe(true);
-        await duct.call(duct.EVENT['BLOBS_GROUP_DELETE'], group_name);
+        await duct.call(duct.EVENT['BLOBS_GROUP_DELETE'], groupName);
         await duct.close();
         assertNoError();
     },
