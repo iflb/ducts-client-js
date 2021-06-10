@@ -63,3 +63,20 @@ test(
         assertNoError();
     },
 );
+
+test(
+    'Test Event Handler',
+    async () => {
+        resetErrorCount();
+        await duct.open(wsd_url);
+        let hello = 'Hello.';
+        duct.setEventHandler(duct.EVENT['DUCTS_TEST_MSG'], (rid, eid, data) => {});
+        await expect(duct.call(duct.EVENT['DUCTS_TEST_MSG'], hello)).resolves.toBe(hello);
+        let seeYou = 'See you.';
+        duct.setEventHandler(duct.EVENT['DUCTS_TEST_MSG'], (rid, eid, data) => { return seeYou; });
+        await expect(duct.call(duct.EVENT['DUCTS_TEST_MSG'], hello)).resolves.toBe(seeYou);
+        duct.setEventHandler(duct.EVENT['DUCTS_TEST_MSG'], (rid, eid, data) => {});
+        await duct.close();
+        assertNoError();
+    },
+);
