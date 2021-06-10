@@ -80,3 +80,22 @@ test(
         assertNoError();
     },
 );
+
+test(
+    'Test Loop',
+    async () => {
+        resetErrorCount();
+        await duct.open(wsd_url);
+        let loopCount = 10;
+        let queue = await duct.call(duct.EVENT['DUCTS_TEST_LOOP'], loopCount);
+        let memoValue = 0
+        for (let i = 0; i < loopCount; ++i) {
+            let expectedValue = memoValue + i;
+            await expect(queue.dequeue()).resolves.toBe(expectedValue);
+            memoValue = expectedValue;
+        }
+        await expect(queue.dequeue()).resolves.toBe(null);
+        await duct.close();
+        assertNoError();
+    },
+);
