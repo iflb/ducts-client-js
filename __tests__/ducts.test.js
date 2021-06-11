@@ -75,7 +75,7 @@ test(
         let seeYou = 'See you.';
         duct.setEventHandler(duct.EVENT['DUCTS_TEST_MSG'], (rid, eid, data) => { return seeYou; });
         await expect(duct.call(duct.EVENT['DUCTS_TEST_MSG'], hello)).resolves.toBe(seeYou);
-        duct.setEventHandler(duct.EVENT['DUCTS_TEST_MSG'], (rid, eid, data) => {});
+        duct.setEventHandler(duct.EVENT['DUCTS_TEST_MSG']);
         await duct.close();
         assertNoError();
     },
