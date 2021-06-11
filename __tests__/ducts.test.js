@@ -99,3 +99,14 @@ test(
         assertNoError();
     },
 );
+
+test(
+    'Test Promised Close Function Returned Gets Resolved Immediately After A Websocket Is Closed',
+    async () => {
+        resetErrorCount();
+        await duct.open(wsd_url);
+        await duct.close();
+        expect(duct.close()).resolves.toBe(null);
+        assertNoError();
+    },
+);
