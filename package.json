@@ -1,6 +1,6 @@
 {
   "name": "@iflb/ducts-client",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "DUCTS API for JavaScript client.",
   "main": "lib/ducts.js",
   "directories": {
@@ -27,7 +27,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
-    "@iflb/lib": "^0.2.0",
+    "@iflb/lib": "^0.2.1",
     "buffer": "^5.7.1",
     "get-random-values": "^1.2.2",
     "node-fetch": "^2.6.1",
