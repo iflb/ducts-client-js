@@ -1,6 +1,6 @@
 {
   "name": "@iflb/ducts-client",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "DUCTS API for JavaScript client.",
   "main": "lib/ducts.js",
   "directories": {
