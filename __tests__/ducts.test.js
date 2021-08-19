@@ -1,4 +1,4 @@
-const ducts =  require('../lib/ducts')
+const ducts = require('../lib/ducts')
 
 var errorCount = 0;
 function resetErrorCount() { errorCount = 0; }
@@ -25,6 +25,8 @@ duct.eventErrorHandler = (rid, eid, data, error) => {
 };
 
 const wsd_url = 'https://sdk.ducts.io/ducts/wsd';
+
+jest.setTimeout(5000);
 
 test(
     'Test Open And Close',
@@ -73,7 +75,7 @@ test(
         duct.setEventHandler(duct.EVENT['DUCTS_TEST_MSG'], (rid, eid, data) => {});
         await expect(duct.call(duct.EVENT['DUCTS_TEST_MSG'], hello)).resolves.toBe(hello);
         let seeYou = 'See you.';
-        duct.setEventHandler(duct.EVENT['DUCTS_TEST_MSG'], (rid, eid, data) => { return seeYou; });
+        duct.setEventHandler(duct.EVENT['DUCTS_TEST_MSG'], (rid, eid, data) => [ rid, eid, seeYou ]);
         await expect(duct.call(duct.EVENT['DUCTS_TEST_MSG'], hello)).resolves.toBe(seeYou);
         duct.setEventHandler(duct.EVENT['DUCTS_TEST_MSG']);
         await duct.close();
@@ -99,6 +101,22 @@ test(
         assertNoError();
     },
 );
+
+jest.setTimeout(20000);
+
+test(
+    'Test BLOB',
+    async () => {
+        resetErrorCount();
+        await duct.open(wsd_url);
+        let ret = await duct.call(duct.EVENT['DUCTS_TEST_BLOB']);
+        expect(ret).toBe('0123456789'.repeat(1024 * 1024))
+        await duct.close();
+        assertNoError();
+    },
+);
+
+jest.setTimeout(5000);
 
 test(
     'Test Promised Close Function Returned Gets Resolved Immediately After A Websocket Is Closed',
