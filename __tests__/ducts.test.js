@@ -26,8 +26,6 @@ duct.eventErrorHandler = (rid, eid, data, error) => {
 
 const wsd_url = 'https://sdk.ducts.io/ducts/wsd';
 
-jest.setTimeout(5000);
-
 test(
     'Test Open And Close',
     async () => {
@@ -102,21 +100,17 @@ test(
     },
 );
 
-jest.setTimeout(20000);
-
 test(
     'Test BLOB',
     async () => {
         resetErrorCount();
         await duct.open(wsd_url);
         let ret = await duct.call(duct.EVENT['DUCTS_TEST_BLOB']);
-        expect(ret).toBe('0123456789'.repeat(1024 * 1024))
+        expect(ret.toString()).toBe('0123456789'.repeat(1024 * 1024))
         await duct.close();
         assertNoError();
     },
 );
-
-jest.setTimeout(5000);
 
 test(
     'Test Promised Close Function Returned Gets Resolved Immediately After A Websocket Is Closed',
