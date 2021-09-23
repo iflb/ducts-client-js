@@ -1,6 +1,6 @@
 {
   "name": "@iflb/ducts-client",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "DUCTS API for JavaScript client.",
   "main": "lib/ducts.js",
   "directories": {
@@ -22,8 +22,7 @@
   "devDependencies": {
     "jest": "^27.0.4",
     "terser-webpack-plugin": "^5.1.1",
-    "webpack": "^5.23.0",
-    "webpack-cli": "^4.7.2",
+    "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
