@@ -135,7 +135,7 @@ const State = Object.freeze({
     CLOSE : -1,
     OPEN_CONNECTING : WebSocket.CONNECTING,
     OPEN_CONNECTED : WebSocket.OPEN,
-    OPEN_CLOSING : WebSocket.CONNECTING,
+    OPEN_CLOSING : WebSocket.CLOSING,
     OPEN_CLOSED : WebSocket.CLOSED,
 });
 
